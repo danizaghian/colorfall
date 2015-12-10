@@ -93,6 +93,12 @@ function fire() {
 
 }
 
+function movePenguin() {
+
+    game.physics.arcade.moveToPointer(penguin, 200);
+}
+
+
 
 function update() {
 
@@ -107,6 +113,9 @@ function update() {
     else if (cursors.right.isDown)
     {
         penguin.body.velocity.x = 200;
+    }
+    else if (game.input.activePointer.isDown) {
+        movePenguin();
     }
 
     colorblocks.forEachAlive(checkBounds, this);
