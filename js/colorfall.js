@@ -10,7 +10,7 @@ var game = new Phaser.Game(
 );
 
 //undefined game variables
-var bulbasaur;
+var penguin;
 var colorblocks;
 var cursors;
 var counterText;
@@ -19,6 +19,11 @@ var counterText;
 var counter = 0;
 var stopControls = 0;
 var caughtColors = [];
+var paletteSig = null;
+var colorPalette = null;
+var paletteX = 0;
+var paletteY = 0;
+stopDispatch = 0;
 
 //Preload callback. Used to load all assets into Phaser.
 function preload() {
@@ -26,7 +31,7 @@ function preload() {
     // TODO: Loading the background abackground an image
 
     // Loading the sprite eaters
-    game.load.image('bulbasaur', 'assets/sprites/bulbasaur.png');
+    game.load.spritesheet('penguin', 'assets/sprites/penguin.png', 102, 102);
     // Loading the colorblock tiles
     game.load.spritesheet('bullets', 'assets/sprites/colorblocks.png', 20, 20);
 
@@ -45,8 +50,13 @@ function create() {
 
     colorblocks.createMultiple(250, 'bullets', 0, false);
 
-    // Setting up the colorblockeater
-    bulbasaur = game.add.sprite(180, 620, 'bulbasaur');
+    // Setting up the penguin
+    penguin = game.add.sprite(180, 620, 'penguin');
+    penguin.animations.add('peng', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true);
+
+    var walk = penguin.animations.add('move');
+    penguin.animations.play('move', 15, true);
+
 
     //sets gravity of falling objects
     game.physics.arcade.gravity.y = 70;
@@ -54,10 +64,10 @@ function create() {
     //  Enable physics on everything added to the world so far (the true parameter makes it recurse down into children)
     game.physics.arcade.enable(game.world, true);
 
-    // no gravity on bulbasaur and immovable
-    bulbasaur.body.allowGravity = 0;
-    bulbasaur.body.immovable = true;
-    bulbasaur.body.collideWorldBounds = true;
+    // no gravity on penguin and immovable
+    penguin.body.allowGravity = 0;
+    penguin.body.immovable = true;
+    penguin.body.collideWorldBounds = true;
 
     //keyboard movement
     cursors = game.input.keyboard.createCursorKeys();
@@ -66,35 +76,6 @@ function create() {
     game.time.events.loop(1000, fire, this);
 
     counterText = game.add.text(16, 16, 'counter: 0/64', { font: '18px Arial', fill: '#707070' });
-
-    // //Final Creation
-    // paletteSig = new Phaser.Signal();
-    // paletteSig.add(function() {
-    //   stopControls = 1;
-    //   this._colorPalette = this.add.group();
-
-    //   for (var i = 0; i < caughtColors.length; i++) {
-    //     var tweenDelay = i * 200;
-    //     var pX = this._drippy.position.x + 16,
-    //         pY = this._drippy.position.y + 14;
-    //     var paletteSprite = this.add.sprite(pX, pY, 'colors', caughtColors[i]);
-    //     paletteSprite.alpha = 0;
-
-    //     this.add.tween(paletteSprite).to( { x: paletteX, y: paletteY, alpha: 1 }, 250, Phaser.Easing.Linear.None, true, tweenDelay);
-    //     this.add.tween(paletteSprite.scale).to({x: 3.2, y: 3.2}, 250, Phaser.Easing.Linear.None, true, tweenDelay);
-
-    //     this._colorPalette.add(paletteSprite);
-
-    //     if (paletteX == 576) {
-    //       paletteX = 0;
-    //       paletteY = paletteY + 64;
-    //     } else {
-    //       paletteX = paletteX + 64;
-    //     }
-    //   }
-
-    //   stopDispatch = 1;
-    // }, this);
 
 }
 
@@ -115,20 +96,24 @@ function fire() {
 
 function update() {
 
-    game.physics.arcade.collide(bulbasaur, colorblocks, collisionHandler, null, this);
+    game.physics.arcade.collide(penguin, colorblocks, collisionHandler, null, this);
 
-    bulbasaur.body.velocity.x = 0;
+    penguin.body.velocity.x = 0;
 
     if (cursors.left.isDown)
     {
-        bulbasaur.body.velocity.x = -200;
+        penguin.body.velocity.x = -200;
     }
     else if (cursors.right.isDown)
     {
-        bulbasaur.body.velocity.x = 200;
+        penguin.body.velocity.x = 200;
     }
 
     colorblocks.forEachAlive(checkBounds, this);
+
+    if(counter == 64) {
+        //end game and signal dispatch
+    }
 
 }
 
