@@ -17,6 +17,8 @@ var counterText;
 
 //defined variables at start
 var counter = 0;
+var stopControls = 0;
+var caughtColors = [];
 
 //Preload callback. Used to load all assets into Phaser.
 function preload() {
@@ -55,6 +57,7 @@ function create() {
     // no gravity on bulbasaur and immovable
     bulbasaur.body.allowGravity = 0;
     bulbasaur.body.immovable = true;
+    bulbasaur.body.collideWorldBounds = true;
 
     //keyboard movement
     cursors = game.input.keyboard.createCursorKeys();
@@ -63,6 +66,35 @@ function create() {
     game.time.events.loop(1000, fire, this);
 
     counterText = game.add.text(16, 16, 'counter: 0/64', { font: '18px Arial', fill: '#707070' });
+
+    // //Final Creation
+    // paletteSig = new Phaser.Signal();
+    // paletteSig.add(function() {
+    //   stopControls = 1;
+    //   this._colorPalette = this.add.group();
+
+    //   for (var i = 0; i < caughtColors.length; i++) {
+    //     var tweenDelay = i * 200;
+    //     var pX = this._drippy.position.x + 16,
+    //         pY = this._drippy.position.y + 14;
+    //     var paletteSprite = this.add.sprite(pX, pY, 'colors', caughtColors[i]);
+    //     paletteSprite.alpha = 0;
+
+    //     this.add.tween(paletteSprite).to( { x: paletteX, y: paletteY, alpha: 1 }, 250, Phaser.Easing.Linear.None, true, tweenDelay);
+    //     this.add.tween(paletteSprite.scale).to({x: 3.2, y: 3.2}, 250, Phaser.Easing.Linear.None, true, tweenDelay);
+
+    //     this._colorPalette.add(paletteSprite);
+
+    //     if (paletteX == 576) {
+    //       paletteX = 0;
+    //       paletteY = paletteY + 64;
+    //     } else {
+    //       paletteX = paletteX + 64;
+    //     }
+    //   }
+
+    //   stopDispatch = 1;
+    // }, this);
 
 }
 
@@ -80,21 +112,6 @@ function fire() {
 
 }
 
-function reflect(a, colorblock) {
-
-    if (colorblock.y > (bulbasaur.y + 5))
-    {
-        return true;
-    }
-    else
-    {
-        colorblock.body.velocity.x = bulbasaur.body.velocity.x;
-        colorblock.body.velocity.y *= -(colorblock.body.bounce.y);
-
-        return false;
-    }
-
-}
 
 function update() {
 
@@ -117,6 +134,7 @@ function update() {
 
 function checkBounds(colorblock) {
 
+    colorblock.checkWordBounds = true;
     if (colorblock.y > 720)
     {
         colorblock.kill();
@@ -127,7 +145,12 @@ function checkBounds(colorblock) {
 function collisionHandler (bulbasaur, colorblock) {
     
     colorblock.kill();
-    counter += 1;
-    counterText.text = 'counter: ' + counter + "/64";
+
+    if (counter < 64) {
+        caughtColors.push(colorblock.frame);
+        console.log(caughtColors);
+        counter = caughtColors.length;
+        counterText.text = 'counter:' + counter + '/64';
+    }
 
 }
