@@ -13,9 +13,10 @@ var game = new Phaser.Game(
 var bulbasaur;
 var colorblocks;
 var cursors;
+var counterText;
 
 //defined variables at start
-var score = 0;
+var counter = 0;
 
 //Preload callback. Used to load all assets into Phaser.
 function preload() {
@@ -61,7 +62,7 @@ function create() {
 
     game.time.events.loop(1000, fire, this);
 
-    game.add.text(16, 16, 'counter: 0', { font: '18px Arial', fill: '#707070' });
+    counterText = game.add.text(16, 16, 'counter: 0/64', { font: '18px Arial', fill: '#707070' });
 
 }
 
@@ -126,5 +127,7 @@ function checkBounds(colorblock) {
 function collisionHandler (bulbasaur, colorblock) {
     
     colorblock.kill();
+    counter += 1;
+    counterText.text = 'counter: ' + counter + "/64";
 
 }
