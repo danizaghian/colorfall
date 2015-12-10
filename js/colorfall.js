@@ -1,5 +1,5 @@
 var game = new Phaser.Game(
-    800, 600,                       // 800 x 600 rebackgroundolution.
+    480, 720,                       // 800 x 600 rebackgroundolution.
     Phaser.AUTO,                    // Allow Phaser to determine Canvas or WebGL
     "colorfall",                    // The HTML element ID we will connect Phaser to.
     {                               // Functions (callbacks) for Phaser to call in
@@ -43,7 +43,7 @@ function create() {
     colorblocks.createMultiple(250, 'bullets', 0, false);
 
     // Setting up the colorblockeater
-    bulbasaur = game.add.sprite(300, 500, 'bulbasaur');
+    bulbasaur = game.add.sprite(180, 620, 'bulbasaur');
 
     //sets gravity of falling objects
     game.physics.arcade.gravity.y = 70;
@@ -97,7 +97,7 @@ function reflect(a, colorblock) {
 
 function update() {
 
-    game.physics.arcade.collide(bulbasaur, colorblocks, null, reflect, this);
+    game.physics.arcade.collide(bulbasaur, colorblocks, collisionHandler, null, this);
 
     bulbasaur.body.velocity.x = 0;
 
@@ -116,9 +116,15 @@ function update() {
 
 function checkBounds(colorblock) {
 
-    if (colorblock.y > 600)
+    if (colorblock.y > 720)
     {
         colorblock.kill();
     }
+
+}
+
+function collisionHandler (bulbasaur, colorblock) {
+    
+    colorblock.kill();
 
 }
