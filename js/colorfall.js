@@ -28,12 +28,16 @@ stopDispatch = 0;
 //Preload callback. Used to load all assets into Phaser.
 function preload() {
 
+    // TODO FIX SCALER
+
     // TODO: Loading the background abackground an image
 
     // Loading the sprite eaters
     game.load.spritesheet('penguin', 'assets/sprites/penguin.png', 102, 102);
     // Loading the colorblock tiles
-    game.load.spritesheet('bullets', 'assets/sprites/colorblocks.png', 20, 20);
+    game.load.spritesheet('projectiles', 'assets/sprites/colorblocks.png', 20, 20);
+
+
 
 }
 
@@ -48,7 +52,7 @@ function create() {
     //Creating a colorblock group
     colorblocks = game.add.group();
 
-    colorblocks.createMultiple(250, 'bullets', 0, false);
+    colorblocks.createMultiple(250, 'projectiles', 0, false);
 
     // Setting up the penguin
     penguin = game.add.sprite(180, 620, 'penguin');
@@ -93,12 +97,6 @@ function fire() {
 
 }
 
-function movePenguin() {
-
-    game.physics.arcade.moveToPointer(penguin, 200);
-}
-
-
 
 function update() {
 
@@ -115,7 +113,9 @@ function update() {
         penguin.body.velocity.x = 200;
     }
     else if (game.input.activePointer.isDown) {
-        movePenguin();
+        //TODO: cant move out of bound
+        penguin.body.blocked.up = true;
+        game.physics.arcade.moveToPointer(penguin, 200);
     }
 
     colorblocks.forEachAlive(checkBounds, this);
