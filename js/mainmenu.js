@@ -9,11 +9,12 @@ ColorFall.MainMenu.prototype = {
     music.play('', 0, 1, true, true);
 
     /* Title */
-    this.add.sprite((ColorFall.GAME_WIDTH-418)/2, 300, 'title');
+    this.add.sprite((ColorFall.GAME_WIDTH-470)/2, 260, 'danis');
+    this.add.sprite((ColorFall.GAME_WIDTH-490)/2, 300, 'title');
 
     /* Intro Text */
     var fontstyle = { font: '20px Helvetica', fill: '#666', align: 'center' };
-    var introtext = this.add.text(ColorFall.GAME_WIDTH/2, 640, 'Use the arrow keys to catch color swatches as they fall\nOnce you catch 100, see your masterpiece!', fontstyle);
+    var introtext = this.add.text(ColorFall.GAME_WIDTH/2, 640, 'Use the arrow keys to catch color swatches as they fall\nOnce you catch 64, see your masterpiece!', fontstyle);
     introtext.anchor.set(0.5);
 
     /* Drippy */

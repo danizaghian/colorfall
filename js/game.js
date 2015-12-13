@@ -28,11 +28,14 @@ ColorFall.Game.prototype = {
     this.add.tileSprite(0, 0, 640, 960, 'background');
 
     /* Pause Button */
-    this._pauseButton = this.add.button(ColorFall.GAME_WIDTH-46, 16, 'pause', this.pauseGame, this, 0, 0, 0);
+    this._pauseButton = this.add.button(ColorFall.GAME_WIDTH-42, 16, 'pause', this.pauseGame, this, 0, 0, 0);
+
+    /* Mute Button */
+    //this._muteButton = this.add.button(20, 16, 'pause', this.muteSound, this, 0, 0, 0);
 
     /* Count Text */
     this._fontStyle = { font: '20px Helvetica', fill: '#ccc', align: 'left' };
-    this._countText = this.add.text(20, 20, colorCount+' / 64', this._fontStyle);
+    this._countText = this.add.text((ColorFall.GAME_WIDTH/2 - 16), 20, colorCount+' / 64', this._fontStyle);
 
     /* Physics */
     this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -97,6 +100,15 @@ ColorFall.Game.prototype = {
 
     this._penguin.body.velocity.x = 0;
 
+  },
+  muteSound: function() {
+    music.pause();
+    this._pauseButton.setFrames(1, 1, 1);
+
+    this.input.onDown.add(function(){
+      music.resume();
+      this._pauseButton.setFrames(0, 0, 0);
+    }, this);
   },
   pauseGame: function(){
     this.game.paused = true;
@@ -169,8 +181,7 @@ ColorFall.Game.prototype = {
 ColorFall.item = {
   spawnColor: function(game){
     var dropPos = Math.floor(Math.random()*(ColorFall.GAME_WIDTH-20));
-    //var colorType = Math.scale(Math.random()*216);
-    var colorType = Math.floor(Math.exp(Math.random()*Math.log(216-1+1)))+1;
+    var colorType = Math.floor(Math.random()*216);
 
     var colorSprite = game.add.sprite(dropPos, -20, 'colors');
 

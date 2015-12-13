@@ -7,6 +7,7 @@ ColorFall.Preloader.prototype = {
     this.stage.backgroundColor = '#fff';
 
     this.load.image('background', 'img/bg.png');
+    this.load.image('danis', 'img/danis.png');
     this.load.image('title', 'img/title.png');
     this.load.image('start', 'img/start.png');
     this.load.image('paused', 'img/paused.png');
@@ -15,6 +16,8 @@ ColorFall.Preloader.prototype = {
     this.load.spritesheet('colors', 'img/colors.png', 20, 20);
     this.load.spritesheet('splash', 'img/splash.png', 5, 5);
     this.load.spritesheet('penguin', 'img/penguin.png', 102, 102);
+    this.load.audio('music', ['img/safetydance.mp3', 'safetydance.ogg']);
+
   },
   create: function(){
     this.state.start('MainMenu');
