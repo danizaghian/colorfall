@@ -52,6 +52,6 @@ app.get("/gameresultnew", function (req, res){
 // 	res.sendfile(staticFilePath + staticPath+ '/index.html');
 // });
 
-app.listen(3000, function (){
+app.listen(process.env.PORT || 3000, function (){
   console.log("listening on port 3000");
 });

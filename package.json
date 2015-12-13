@@ -4,8 +4,7 @@
   "description": "Colorfall",
   "main": "game.js",
   "scripts": {
-    "start": "node server.js",
-    "startGame": "node node_modules/http-server/bin/http-server"
+    "start": "node server.js && node node_modules/http-server/bin/http-server"
     },
   "repository": {
     "type": "git",
