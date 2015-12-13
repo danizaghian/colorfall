@@ -35,8 +35,8 @@ app.get('/gameresult/:id', function (req, res, next){
 
       var meta ={
         title: 'Colorfall',
-        url: 'http://colorfall.herokuapp.com',
-        image: 'http://colorfall.herokuapp.com' + gameresult.imgurl,
+        url: 'https://colorfall.herokuapp.com/gameresult/'+gameresult._id,
+        image: 'https://colorfall.herokuapp.com' + gameresult.imgurl,
         desc: 'I made art!'
       };
 
