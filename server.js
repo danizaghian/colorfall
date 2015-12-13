@@ -17,11 +17,69 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //ROUTES
 
-app.get('/gameresult/:id', function (req, res){
-	db.GameResult.findOne({_id: req.params.id}, function (err, gameresult) {
-		console.log(gameresult);
-    res.json(gameresult);
-	});
+app.get('/gameresult/:id', function (req, res, next){
+  var userAgent =req.headers['user-agent'];
+  var socialScraper =false;
+  if(userAgent !==undefined && (userAgent.indexOf('facebookexternalhit') >-1 || userAgent.indexOf('Facebot') >-1)) {
+    socialScraper ='facebook';
+  }
+  else if(userAgent !==undefined && (userAgent.indexOf('Twitterbot') >-1)) {
+    socialScraper ='twitter';
+  }
+
+  if(socialScraper) {
+
+    db.GameResult.findOne({_id: req.params.id}, function (err, gameresult) {
+      console.log(gameresult);
+      //res.json(gameresult);
+
+      var meta ={
+        title: 'Some Title',
+        url: 'serverUrl/someUrl',
+        image: 'http://colorfall.herokuapp.com' + gameresult.imgurl,
+        desc: 'Some description'
+      };
+
+      var html ='';
+      html ="<!DOCTYPE html>"+
+      "<html lang='en'>"+
+      "<head>";
+      
+      var title1 =meta.title;
+      var desc1 =meta.desc;
+      var siteName ='colorfall';
+      var fbAppId ='1727020734193995';
+        
+      if(socialScraper =='facebook') {
+        html +="<meta property='og:title' content='"+title1+"' />"+
+        "<meta property='og:site_name' content='"+siteName+"' />"+
+        "<meta property='og:url' content='"+meta.url+"' />"+
+        "<meta property='og:description' content='"+desc1+"' />"+
+        "<meta property='og:image' content='"+meta.image+"' />"+
+        "<meta property='fb:app_id' content='"+fbAppId+"' />";
+      }
+       else if(socialScraper =='twitter') {
+        html +="<meta name='twitter:card' content='summary_large_image' />"+
+        "<meta name='twitter:site' content='@ColorfallGame' />"+
+        "<meta name='twitter:creator' content='@ColorfallGame' />"+
+        "<meta name='twitter:url' content='"+meta.url+"' />"+
+        "<meta name='twitter:title' content='"+title1+"' />"+
+        "<meta name='twitter:description' content='"+desc1+"' />"+
+        "<meta name='twitter:image' content='"+meta.image+"' />";
+      }
+      html +="</head>"+
+      "<body>"+
+      "</body>"+
+      "</html>";
+
+      res.writeHeader(200, {"Content-Type": "text/html"});
+      res.write(html);
+      res.end();
+    });
+  }
+  else {
+    next();
+  }
 });
 
 // api route to create new img
@@ -48,9 +106,10 @@ app.get("/gameresultnew", function (req, res){
 	});
 });
 
-// app.get('*', function (req, res){
-// 	res.sendfile(staticFilePath + staticPath+ '/index.html');
-// });
+app.get('*', function (req, res){
+	// res.sendfile('public/index.html');
+  res.redirect('/');
+});
 
 app.listen(process.env.PORT || 3000, function (){
   console.log("listening on port 3000");

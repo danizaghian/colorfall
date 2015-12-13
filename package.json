@@ -11,10 +11,7 @@
     "url": "https://github.com/danizaghian/colorfall.git"
   },
   "keywords": [
-    "phaser",
-    "tutorial",
-    "arkanoid",
-    "breakout"
+    "phaser"
   ],
   "dependencies": {
     "body-parser": "^1.14.1",
