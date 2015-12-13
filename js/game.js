@@ -89,7 +89,7 @@ ColorFall.Game.prototype = {
     this._penguin = this.add.sprite(292, 840, 'penguin');
     this.physics.enable(this._penguin, Phaser.Physics.ARCADE);
 
-    this._penguin.body.setSize(70, 106, 8, 14);
+    this._penguin.body.setSize(75, 106, 8, 14);
     this._penguin.body.collideWorldBounds = true;
 
     this._penguin.inputEnabled = true;
