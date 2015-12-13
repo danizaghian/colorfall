@@ -34,10 +34,10 @@ app.get('/gameresult/:id', function (req, res, next){
       //res.json(gameresult);
 
       var meta ={
-        title: 'Some Title',
-        url: 'serverUrl/someUrl',
+        title: 'Colorfall',
+        url: 'http://colorfall.herokuapp.com',
         image: 'http://colorfall.herokuapp.com' + gameresult.imgurl,
-        desc: 'Some description'
+        desc: 'I made art!'
       };
 
       var html ='';
