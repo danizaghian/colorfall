@@ -68,6 +68,10 @@ app.get('/gameresult/:id', function (req, res, next){
         "<meta property='fb:app_id' content='"+fbAppId+"' />";
       }
        else if(socialScraper =='twitter') {
+        // temp data to make it work (in validator)
+        // https://dev.twitter.com/cards/types/summary-large-image
+        desc1 ="NEWARK - The guest list and parade of limousines with celebrities emerging from them seemed more suited to a red carpet event in Hollywood or New York than than a gritty stretch of Sussex Avenue near the former site of the James M. Baxter Terrace public housing project here.";
+        meta.image ="http://graphics8.nytimes.com/images/2012/02/19/us/19whitney-span/19whitney-span-articleLarge.jpg";
         html +="<meta name='twitter:card' content='summary_large_image' />"+
         "<meta name='twitter:site' content='@ColorfallGame' />"+
         "<meta name='twitter:creator' content='@ColorfallGame' />"+
