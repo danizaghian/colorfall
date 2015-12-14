@@ -78,13 +78,13 @@ app.get('/gameresult/:id', function (req, res, next){
         // temp data to make it work (in validator)
         // https://dev.twitter.com/cards/types/summary-large-image
         desc1 ="NEWARK - The guest list and parade of limousines with celebrities emerging from them seemed more suited to a red carpet event in Hollywood or New York than than a gritty stretch of Sussex Avenue near the former site of the James M. Baxter Terrace public housing project here.";
-        html +="<meta name='twitter:card' content='summary_large_image' />"+
-        "<meta name='twitter:site' content='@ColorfallGame' />"+
-        "<meta name='twitter:creator' content='@ColorfallGame' />"+
-        "<meta name='twitter:url' content='"+meta.url+"' />"+
-        "<meta name='twitter:title' content='"+meta.title+"' />"+
-        "<meta name='twitter:description' content='"+meta.desc+"' />"+
-        "<meta name='twitter:image' content='"+meta.image+"' />";
+        html +="<meta property='twitter:card' content='summary_large_image' />"+
+        "<meta property='twitter:site' content='@ColorfallGame' />"+
+        "<meta property='twitter:creator' content='@ColorfallGame' />"+
+        "<meta property='twitter:url' content='"+meta.url+"' />"+
+        "<meta property='twitter:title' content='"+meta.title+"' />"+
+        "<meta property='twitter:description' content='"+meta.desc+"' />"+
+        "<meta property='twitter:image' content='"+meta.image+"' />";
       }
       html +="</head>"+
       "<body>"+
