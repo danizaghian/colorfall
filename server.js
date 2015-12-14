@@ -100,7 +100,7 @@ app.post("/gameresult", function (req, res){
   }
   // convert base64 to image file and save it
   // create random string for file name
-  var filename =(Math.random() + 1).toString(36).substring(7)+".jpg";
+  var filename =(Math.random() + 1).toString(36).substring(7)+".png";
   var savePath ='/img/gameresults/'+filename;
   var filePath =__dirname + '/public' + savePath;
   fs.writeFileSync(filePath, new Buffer(req.body.imgBase64, "base64"));

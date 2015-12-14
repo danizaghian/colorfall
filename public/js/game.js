@@ -59,6 +59,7 @@ ColorFall.Game.prototype = {
       stopControls = 1;
       this._cursors = this.input.keyboard.stop();
       this._colorPalette = this.add.group();
+      console.log(caughtColors);
 
       this.add.button((ColorFall.GAME_WIDTH-324)/2, 80, 'again', this.resetGame, this);
 

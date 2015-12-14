@@ -20,6 +20,11 @@
     	<script src="js/mainmenu.js"></script>
     	<script src="js/game.js"></script>
 
+    	<!-- Hidden canvas image div -->
+    	<canvas id="canvasSaveImage" width="160" height="160" style="border:1px solid black;position:absolute;left:-9px;">
+		Your browser does not support the HTML5 canvas tag.
+		</canvas>
+
 		<script>
 			(function() {
 			  var game = new Phaser.Game(640, 960, Phaser.CANVAS, 'game');
