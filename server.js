@@ -82,8 +82,8 @@ app.get('/gameresult/:id', function (req, res, next){
         "<meta name='twitter:site' content='@ColorfallGame' />"+
         "<meta name='twitter:creator' content='@ColorfallGame' />"+
         "<meta name='twitter:url' content='"+meta.url+"' />"+
-        "<meta name='twitter:title' content='"+title1+"' />"+
-        "<meta name='twitter:description' content='"+desc+"' />"+
+        "<meta name='twitter:title' content='"+meta.title+"' />"+
+        "<meta name='twitter:description' content='"+meat.desc+"' />"+
         "<meta name='twitter:image' content='"+meta.image+"' />";
       }
       html +="</head>"+
