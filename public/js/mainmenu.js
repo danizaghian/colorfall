@@ -27,6 +27,7 @@ ColorFall.MainMenu.prototype = {
 
     //TODO
     this.add.button((ColorFall.GAME_WIDTH-155)/2, 300, 'fb', this.saveGameResult, this);
+    this.add.button((ColorFall.GAME_WIDTH-155)/2, 350, 'twitter', this.shareTwitter, this);
     this.add.button((ColorFall.GAME_WIDTH-155)/2, 400, 'fb', this.shareFB, this);
     this.add.button((ColorFall.GAME_WIDTH-155)/2, 520, 'start', this.startGame, this);
   },
@@ -36,6 +37,11 @@ ColorFall.MainMenu.prototype = {
   shareFB: function() {
     var url = "https://colorfall.herokuapp.com/gameresult/" + gameresult._id;
     var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" +encodeURIComponent(url);
+    window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
+  },
+  shareTwitter: function() {
+    var url = "https://colorfall.herokuapp.com/gameresult/" + gameresult._id;
+    var shareURL = "https://www.twitter.com/share?url=" +encodeURIComponent(url);
     window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
   },
   saveGameResult: function() {
