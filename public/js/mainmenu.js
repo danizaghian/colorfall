@@ -40,7 +40,7 @@ ColorFall.MainMenu.prototype = {
   },
   saveGameResult: function() {
     var gameResult = {
-        imgurl: "img/colors.png"
+        imgurl: "/img/colors.png"
     };
     var self = this;
     $.post('/gameresult', gameResult, function(data){
