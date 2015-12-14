@@ -37,6 +37,10 @@ app.get('/gameresult/:id', function (req, res, next){
         title: 'Colorfall',
         url: 'https://colorfall.herokuapp.com/gameresult/'+gameresult._id,
         image: 'https://colorfall.herokuapp.com' + gameresult.imgurl,
+        // hack to get image to show up first time:
+        // http://stackoverflow.com/a/27424085/5551755
+        imageWidth: 360,
+        imageHeight: 240,
         desc: 'I made art!'
       };
 
@@ -56,6 +60,8 @@ app.get('/gameresult/:id', function (req, res, next){
         "<meta property='og:url' content='"+meta.url+"' />"+
         "<meta property='og:description' content='"+desc1+"' />"+
         "<meta property='og:image' content='"+meta.image+"' />"+
+        "<meta property='og:image:width' content='"+meta.imageWidth+"' />"+
+        "<meta property='og:image:height' content='"+meta.imageHeight+"' />"+
         "<meta property='fb:app_id' content='"+fbAppId+"' />";
       }
        else if(socialScraper =='twitter') {
