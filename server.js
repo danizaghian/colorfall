@@ -84,7 +84,7 @@ app.get('/gameresult/:id', function (req, res, next){
 
 // api route to create new img
 app.post("/gameresult", function (req, res){
-  var newGameResult = {imgurl: "img/colors.png"};
+  var newGameResult = req.body;
   console.log(newGameResult);
 
   db.GameResult.create(newGameResult, function(err, gameresult){

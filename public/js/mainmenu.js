@@ -1,3 +1,4 @@
+var gameresult;
 ColorFall.MainMenu = function(game){};
 ColorFall.MainMenu.prototype = {
   create: function(){
@@ -23,9 +24,28 @@ ColorFall.MainMenu.prototype = {
     penguin.animations.play('jump', 15, true);
 
     /* Start */
+
+    //TODO
+    this.add.button((ColorFall.GAME_WIDTH-155)/2, 300, 'fb', this.saveGameResult, this);
+    this.add.button((ColorFall.GAME_WIDTH-155)/2, 400, 'fb', this.shareFB, this);
     this.add.button((ColorFall.GAME_WIDTH-155)/2, 520, 'start', this.startGame, this);
   },
   startGame: function() {
     this.state.start('Game');
+  },
+  shareFB: function() {
+    var url = "https://colorfall.herokuapp.com/gameresult/" + gameresult._id;
+    var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" +encodeURIComponent(url);
+    window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
+  },
+  saveGameResult: function() {
+    var gameResult = {
+        imgurl: "img/colors.png"
+    };
+    var self = this;
+    $.post('/gameresult', gameResult, function(data){
+        gameresult =data;
+        console.log(data);
+    });
   }
 };

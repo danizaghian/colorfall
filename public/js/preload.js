@@ -6,6 +6,7 @@ ColorFall.Preloader.prototype = {
   preload: function(){
     this.stage.backgroundColor = '#fff';
 
+    this.load.image('fb', 'img/fb.jpg');
     this.load.image('background', 'img/bg.png');
     this.load.image('danis', 'img/danis.png');
     this.load.image('title', 'img/title.png');
