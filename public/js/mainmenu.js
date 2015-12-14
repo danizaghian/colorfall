@@ -52,7 +52,7 @@ ColorFall.MainMenu.prototype = {
   },
 
   drawCanvasImage: function(callback) {
-    var img2 = new Image();
+    var canvasImg = new Image();
         var eleId ='canvasSaveImage';
         var context2 = document.getElementById(eleId).getContext('2d');
 
@@ -76,7 +76,7 @@ ColorFall.MainMenu.prototype = {
                 context2.fillRect(left, top, boxWidth, boxHeight);
             }
         } 
-        context2.drawImage(img2,0,0);
+        context2.drawImage(canvasImg,0,0);
         var base64Url =document.getElementById(eleId).toDataURL("image/png");
         callback(base64Url);
   }
