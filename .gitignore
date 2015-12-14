@@ -12,5 +12,8 @@ pids
 # Dependency directory
 node_modules
 
+# Environment (secret) variables
+.env
+
 # User generated images
 public/img/gameresults/

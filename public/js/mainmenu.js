@@ -40,25 +40,19 @@ ColorFall.MainMenu.prototype = {
   },
   saveGameResult: function() {
     this.drawCanvasImage(function(base64Url) {
-        // NOTE: do NOT include the leading "data:image/jpeg;base64"
-        var prefixSearch =";base64,";
-        var indexPrefix =base64Url.indexOf(prefixSearch);
-        if(indexPrefix >-1) {
-            base64Url =base64Url.slice((indexPrefix + prefixSearch.length), base64Url.length);
-        }
         var gameResult = {
             imgBase64: base64Url
         };
         var self = this;
         $.post('/gameresult', gameResult, function(data){
             gameresult =data;
+            console.log(data);
         });
     });
   },
 
   drawCanvasImage: function(callback) {
     var img2 = new Image();
-    // img2.onload = function () {
         var eleId ='canvasSaveImage';
         var context2 = document.getElementById(eleId).getContext('2d');
 
@@ -85,6 +79,5 @@ ColorFall.MainMenu.prototype = {
         context2.drawImage(img2,0,0);
         var base64Url =document.getElementById(eleId).toDataURL("image/png");
         callback(base64Url);
-    // };
   }
 };

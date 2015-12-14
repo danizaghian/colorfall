@@ -7,6 +7,12 @@ var express = require("express"),
     db = require('./models');
     fs = require("fs");
 
+    //creating environmental variables from a file
+    if(fs.existsSync('./.env')){
+      var dotenv = require('dotenv');
+      dotenv.load();
+    }
+
 
 // CONFIG //
 
@@ -39,7 +45,8 @@ app.get('/gameresult/:id', function (req, res, next){
       var meta ={
         title: 'Colorfall',
         url: 'https://colorfall.herokuapp.com/gameresult/'+gameresult._id,
-        image: 'https://colorfall.herokuapp.com' + gameresult.imgurl,
+        // image: 'https://colorfall.herokuapp.com' + gameresult.imgurl,
+        image: 'https://s3-us-west-1.amazonaws.com/colorfall-images/' + gameresult.imgurl,
         // hack to get image to show up first time:
         // http://stackoverflow.com/a/27424085/5551755
         imageWidth: 360,
@@ -96,30 +103,44 @@ app.get('/gameresult/:id', function (req, res, next){
 
 // api route to create new img
 app.post("/gameresult", function (req, res){
-  // create directory if does not exist
-  var dirPath =__dirname + '/public/img/gameresults';
-  if(!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath);
-  }
-  // convert base64 to image file and save it
-  // create random string for file name
-  var filename =(Math.random() + 1).toString(36).substring(7)+".png";
-  var savePath ='/img/gameresults/'+filename;
-  var filePath =__dirname + '/public' + savePath;
-  fs.writeFileSync(filePath, new Buffer(req.body.imgBase64, "base64"));
 
-  var newGameResult = req.body;
-  newGameResult.imgurl =savePath;
-  if(newGameResult.imgBase64) {
-    delete newGameResult.imgBase64;
-  }
-  console.log(newGameResult);
+  //upload image to s3
+  var AWS = require('aws-sdk');
+  AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
+    secretAcessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: 'us-west-1'
+  });
+  var s3Bucket = new AWS.S3( { params: {Bucket: 'colorfall-images'} } );
 
-  db.GameResult.create(newGameResult, function(err, gameresult){
-    if (err) { return console.log("create error: " + err); }
-    console.log("created ", gameresult.imgurl, gameresult._id);
-    res.json(gameresult);
-	});
+  var imgUrl = 'gameresult-' + (Math.random() + 1).toString(36).substring(7)+".png";
+  var buf = new Buffer(req.body.imgBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
+  var data = {
+    Key: imgUrl,
+    Body: buf,
+    ContentEncoding: 'base64',
+    ContentType: 'image/png'
+  };
+  s3Bucket.putObject(data, function(err, data){
+      if (err) { 
+        console.log(err);
+        console.log('Error uploading data: ', data); 
+      } else {
+        var newGameResult = req.body;
+        newGameResult.imgurl = imgUrl;
+        if(newGameResult.imgBase64) {
+          delete newGameResult.imgBase64;
+        }
+        console.log(newGameResult);
+
+        db.GameResult.create(newGameResult, function(err, gameresult){
+          if (err) { return console.log("create error: " + err); }
+          console.log("created ", gameresult.imgurl, gameresult._id);
+          res.json(gameresult);
+        });
+      }
+  });
+
 });
 
 app.get("/gameresultnew", function (req, res){
