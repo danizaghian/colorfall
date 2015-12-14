@@ -5,6 +5,7 @@ var express = require("express"),
     bodyParser = require("body-parser");
     mongoose = require("mongoose");
     db = require('./models');
+    fs = require("fs");
 
 
 // CONFIG //
@@ -13,7 +14,9 @@ var express = require("express"),
 // serve js & css files
 app.use("/", express.static("public"));
 // body parser config to accept our datatypes
-app.use(bodyParser.urlencoded({ extended: true }));
+// Set large request size for images
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 //ROUTES
 
@@ -90,7 +93,23 @@ app.get('/gameresult/:id', function (req, res, next){
 
 // api route to create new img
 app.post("/gameresult", function (req, res){
+  // create directory if does not exist
+  var dirPath =__dirname + '/public/img/gameresults';
+  if(!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath);
+  }
+  // convert base64 to image file and save it
+  // create random string for file name
+  var filename =(Math.random() + 1).toString(36).substring(7)+".jpg";
+  var savePath ='/img/gameresults/'+filename;
+  var filePath =__dirname + '/public' + savePath;
+  fs.writeFileSync(filePath, new Buffer(req.body.imgBase64, "base64"));
+
   var newGameResult = req.body;
+  newGameResult.imgurl =savePath;
+  if(newGameResult.imgBase64) {
+    delete newGameResult.imgBase64;
+  }
   console.log(newGameResult);
 
   db.GameResult.create(newGameResult, function(err, gameresult){
