@@ -62,6 +62,9 @@ ColorFall.Game.prototype = {
       console.log(caughtColors);
 
       this.add.button((ColorFall.GAME_WIDTH-324)/2, 80, 'again', this.resetGame, this);
+      this.add.button((ColorFall.GAME_WIDTH-155)/2, 300, 'fb', this.saveGameResult, this);
+      this.add.button((ColorFall.GAME_WIDTH-155)/2, 350, 'twitter', this.shareTwitter, this);
+      this.add.button((ColorFall.GAME_WIDTH-155)/2, 400, 'fb', this.shareFB, this);
 
       for (var i = 0; i < caughtColors.length; i++) {
         var tweenDelay = i * 200;
@@ -101,6 +104,57 @@ ColorFall.Game.prototype = {
 
     this._penguin.body.velocity.x = 0;
 
+  },
+  drawCanvasImage: function(callback) {
+    var canvasImg = new Image();
+        var eleId ='canvasSaveImage';
+        var context2 = document.getElementById(eleId).getContext('2d');
+
+        var colorBoard =[
+            ["blue", "red", "green", "yellow"],
+            ["red", "#7FFFD4", "yellow", "purple"],
+            ["green", "yellow", "orange", "blue"],
+            ["yellow", "purple", "black", "green"]
+        ];
+        var boxWidth =40;
+        var boxHeight =40;
+
+        // draw our image row by row
+        var left;
+        var top;
+        for (var row = 0; row < colorBoard.length; row ++) {
+            for( var col =0; col <colorBoard[row].length; col++) {
+                context2.fillStyle =colorBoard[row][col];
+                left =col * boxWidth;
+                top =row * boxHeight;
+                context2.fillRect(left, top, boxWidth, boxHeight);
+            }
+        } 
+        context2.drawImage(canvasImg,0,0);
+        var base64Url =document.getElementById(eleId).toDataURL("image/png");
+        callback(base64Url);
+  },
+  shareFB: function() {
+    var url = "https://colorfall.herokuapp.com/gameresult/" + gameresult._id;
+    var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" +encodeURIComponent(url);
+    window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
+  },
+  shareTwitter: function() {
+    var url = "https://colorfall.herokuapp.com/gameresult/" + gameresult._id;
+    var shareURL = "https://www.twitter.com/share?url=" +encodeURIComponent(url);
+    window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
+  },
+  saveGameResult: function() {
+    this.drawCanvasImage(function(base64Url) {
+        var gameResult = {
+            imgBase64: base64Url
+        };
+        var self = this;
+        $.post('/gameresult', gameResult, function(data){
+            gameresult =data;
+            console.log(data);
+        });
+    });
   },
   muteSound: function() {
     music.pause();
