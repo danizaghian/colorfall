@@ -1,3 +1,49 @@
+var colorsMap = {
+  '0': '390000',
+  '1': '710000',
+  '2': '6e2d2f',
+  '3': 'a26163',
+  '4': 'd69596',
+  '5': 'ffc8c9',
+  '6': 'ff8f92',
+  '7': 'dc5a5e',
+  '8': 'ff4e57',
+  '9': 'ff0000',
+  '10': 'ff0000',
+  '11': 'ff0000',
+  '12': 'df0017',
+  '13': 'df0000',
+  '14': 'e00000',
+  '15': 'a72300',
+  '16': 'a80000',
+  '17': 'a72028',
+  '18': '',
+  '19': '',
+  '20': '',
+  '21': '',
+  '22': '',
+  '23': '',
+  '24': '',
+  '25': '',
+  '26': '',
+  '27': '',
+  '28': '',
+  '29': '',
+  '30': '',
+  '31': '',
+  '32': '',
+  '33': '',
+  '34': '',
+  '35': '',
+  '36': '',
+  '37': '',
+  '38': '',
+  '39': '',
+  '40': '',
+
+};
+console.log(colorsMap);
+
 ColorFall.Game = function(game){
   this._pauseButton = null;
   this._fontStyle = null;
@@ -62,9 +108,19 @@ ColorFall.Game.prototype = {
       console.log(caughtColors);
 
       this.add.button((ColorFall.GAME_WIDTH-324)/2, 80, 'again', this.resetGame, this);
-      this.add.button((ColorFall.GAME_WIDTH-155)/2, 300, 'fb', this.saveGameResult, this);
       this.add.button((ColorFall.GAME_WIDTH-155)/2, 350, 'twitter', this.shareTwitter, this);
       this.add.button((ColorFall.GAME_WIDTH-155)/2, 400, 'fb', this.shareFB, this);
+
+      //seeding canvas
+      var canvasImg = new Image();
+      var eleId ='canvasSaveImage';
+      var canvasDrawing = document.getElementById(eleId).getContext('2d');
+      var boxWidth =60;
+      var boxHeight =60;
+      var left;
+      var top;
+      var row = 0;
+      var col = 0;
 
       for (var i = 0; i < caughtColors.length; i++) {
         var tweenDelay = i * 200;
@@ -78,6 +134,24 @@ ColorFall.Game.prototype = {
 
         this._colorPalette.add(paletteSprite);
 
+        //output canvas for image saving
+        canvasDrawing.fillStyle = '#'+colorsMap[caughtColors[i].toString()];
+        if (!canvasDrawing.fillStyle) {
+          canvasDrawing.fillStyle = "black";
+        }
+        left =col * boxWidth;
+        top =row * boxHeight;
+        canvasDrawing.fillRect(left, top, boxWidth, boxHeight);
+
+        if (col == 7) {
+          col = 0;
+          row += 1;
+        }
+        else {
+          col += 1;
+        }
+   
+
         if (paletteX == 560) {
           paletteX = 0;
           paletteY = paletteY + 80;
@@ -85,6 +159,10 @@ ColorFall.Game.prototype = {
           paletteX = paletteX + 80;
         }
       }
+
+      canvasDrawing.drawImage(canvasImg,0,0);
+      var base64Url =document.getElementById(eleId).toDataURL("image/png");
+      this.saveGameResult(base64Url);
 
       stopDispatch = 1;
     }, this);
@@ -105,35 +183,6 @@ ColorFall.Game.prototype = {
     this._penguin.body.velocity.x = 0;
 
   },
-  drawCanvasImage: function(callback) {
-    var canvasImg = new Image();
-        var eleId ='canvasSaveImage';
-        var context2 = document.getElementById(eleId).getContext('2d');
-
-        var colorBoard =[
-            ["blue", "red", "green", "yellow"],
-            ["red", "#7FFFD4", "yellow", "purple"],
-            ["green", "yellow", "orange", "blue"],
-            ["yellow", "purple", "black", "green"]
-        ];
-        var boxWidth =40;
-        var boxHeight =40;
-
-        // draw our image row by row
-        var left;
-        var top;
-        for (var row = 0; row < colorBoard.length; row ++) {
-            for( var col =0; col <colorBoard[row].length; col++) {
-                context2.fillStyle =colorBoard[row][col];
-                left =col * boxWidth;
-                top =row * boxHeight;
-                context2.fillRect(left, top, boxWidth, boxHeight);
-            }
-        } 
-        context2.drawImage(canvasImg,0,0);
-        var base64Url =document.getElementById(eleId).toDataURL("image/png");
-        callback(base64Url);
-  },
   shareFB: function() {
     var url = "https://colorfall.herokuapp.com/gameresult/" + gameresult._id;
     var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" +encodeURIComponent(url);
@@ -144,16 +193,14 @@ ColorFall.Game.prototype = {
     var shareURL = "https://www.twitter.com/share?url=" +encodeURIComponent(url);
     window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
   },
-  saveGameResult: function() {
-    this.drawCanvasImage(function(base64Url) {
-        var gameResult = {
-            imgBase64: base64Url
-        };
-        var self = this;
-        $.post('/gameresult', gameResult, function(data){
-            gameresult =data;
-            console.log(data);
-        });
+  saveGameResult: function(base64Url) {
+    var gameResult = {
+        imgBase64: base64Url
+    };
+    var self = this;
+    $.post('/gameresult', gameResult, function(data){
+        gameresult =data;
+        console.log(data);
     });
   },
   muteSound: function() {
@@ -239,6 +286,7 @@ ColorFall.item = {
     var colorType = Math.floor(Math.random()*216);
 
     var colorSprite = game.add.sprite(dropPos, -20, 'colors');
+    console.log('colorSprite: ', colorSprite);
 
     colorSprite.animations.add('anim', [colorType], 10, true);
     colorSprite.animations.play('anim');
