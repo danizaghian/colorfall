@@ -83,7 +83,7 @@ app.get('/gameresult/:id', function (req, res, next){
         "<meta name='twitter:creator' content='@ColorfallGame' />"+
         "<meta name='twitter:url' content='"+meta.url+"' />"+
         "<meta name='twitter:title' content='"+meta.title+"' />"+
-        "<meta property='og:description' content='In the early days, Twitter grew so quickly that it was almost impossible to add new features because engineers spent their time trying to keep the rocket ship from stalling.'"+
+        "<meta property='og:description' content='I made art!'"+
         "<meta name='twitter:image:src' content='"+meta.image+"' />";
       }
       html +="</head>"+
