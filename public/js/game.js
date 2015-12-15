@@ -229,7 +229,7 @@ var colorsMap = {
   '215': 'eeeeee',
 };
 
-ColorFall.Game = function(game){
+ColorFall.Game1 = function(game){
   this._pauseButton = null;
   this._fontStyle = null;
   this._countText = null;
@@ -253,7 +253,7 @@ ColorFall.Game = function(game){
   stopControls = 0;
 };
 
-ColorFall.Game.prototype = {
+ColorFall.Game1.prototype = {
   create: function(){
     /* Background */
     this.add.tileSprite(0, 0, 640, 960, 'background');
