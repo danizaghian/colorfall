@@ -1,5 +1,30 @@
 ColorFall.Game2 = function(game){
 //variables
+
+  this._fontStyle = null;
+  this._countText = null;
+
+  this._colorGroup = null;
+  this._spawnColorTimer = 0;
+
+  this._cursors = null;
+  this._fire = null;
+
+  this._penguin = null;
+
+  this._icicles = null;
+
+  caughtColors = [];
+  colorCount = 0;
+  colorSplash = null;
+
+  paletteSig = null;
+  this._colorPalette = null;
+  paletteX = 0;
+  paletteY = 160;
+  stopDispatch = 0;
+  stopControls = 0;
+
 };
 
 ColorFall.Game2.prototype = {
@@ -14,12 +39,12 @@ ColorFall.Game2.prototype = {
     //this._muteButton = this.add.button(20, 16, 'pause', this.muteSound, this, 0, 0, 0);
 
     /* Count Text */
-    this._fontStyle = { font: '20px Helvetica', fill: '#ccc', align: 'left' };
+    this._fontStyle = { font: '20px Helvetica', fill: '#666', align: 'left' };
     this._countText = this.add.text((ColorFall.GAME_WIDTH/2 - 16), 20, colorCount+' / 64', this._fontStyle);
 
     /* Physics */
     this.physics.startSystem(Phaser.Physics.ARCADE);
-    this.physics.arcade.gravity.y = 200;
+    this.physics.arcade.gravity.x = 200;
 
     /* Falling Colors */
     this._spawnColorTimer = 0;
@@ -32,6 +57,8 @@ ColorFall.Game2.prototype = {
 
     /* Add Key Input */
     this._cursors = this.input.keyboard.createCursorKeys();
+    this._fire = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
 
     /* Final Palette Creation */
     paletteSig = new Phaser.Signal();
@@ -213,10 +240,10 @@ ColorFall.Game2.prototype = {
 
 ColorFall.item = {
   spawnColor: function(game){
-    var dropPos = Math.floor(Math.random()*(ColorFall.GAME_WIDTH-20));
+    var dropPos = Math.floor(Math.random()*(ColorFall.GAME_HEIGHT-100));
     var colorType = Math.floor(Math.random()*216);
 
-    var colorSprite = game.add.sprite(dropPos, -20, 'colors');
+    var colorSprite = game.add.sprite(ColorFall.GAME_WIDTH-660, dropPos, 'colors');
 
     colorSprite.animations.add('anim', [colorType], 10, true);
     colorSprite.animations.play('anim');

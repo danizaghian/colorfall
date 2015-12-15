@@ -14,6 +14,7 @@ ColorFall.Preloader.prototype = {
     this.load.image('start', 'img/start.png');
     this.load.image('paused', 'img/paused.png');
     this.load.image('again', 'img/play-again.png');
+    this.load.image('icicle', 'img/icicle.png');
     this.load.spritesheet('pause', 'img/pause.png', 26, 23);
     this.load.spritesheet('colors', 'img/colors.png', 20, 20);
     this.load.spritesheet('splash', 'img/splash.png', 5, 5);

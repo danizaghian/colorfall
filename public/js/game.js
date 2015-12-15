@@ -265,7 +265,7 @@ ColorFall.Game1.prototype = {
     //this._muteButton = this.add.button(20, 16, 'pause', this.muteSound, this, 0, 0, 0);
 
     /* Count Text */
-    this._fontStyle = { font: '20px Helvetica', fill: '#ccc', align: 'left' };
+    this._fontStyle = { font: '20px Helvetica', fill: '#666', align: 'left' };
     this._countText = this.add.text((ColorFall.GAME_WIDTH/2 - 16), 20, colorCount+' / 64', this._fontStyle);
 
     /* Physics */
