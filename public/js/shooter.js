@@ -1,35 +1,32 @@
-ColorFall.Game2 = function(game){
-//variables
-  this._pauseButton = null;
-  this._fontStyle = null;
-  this._countText = null;
+function game2init() {
+	  //variables
+	  this._pauseButton = null;
+	  this._fontStyle = null;
+	  this._countText = null;
 
-  this._colorGroup = null;
-  this._spawnColorTimer = 0;
+	  this._colorGroup = null;
+	  this._spawnColorTimer = 0;
 
-  this._cursors = null;
+	  this._cursors = null;
 
-  this._penguin = null;
+	  this._penguin = null;
 
-  this._icicleGroup = null;
-  this._icicles = null;
-  this._icicleTimer = 0;
+	  this._icicleGroup = null;
+	  this._icicles = null;
+	  this._icicleTimer = 0;
 
-  caughtColors = [];
-  colorCount = 0;
-  colorSplash = null;
+	  caughtColors = [];
+	  colorCount = 0;
+	  colorSplash = null;
 
-  paletteSig = null;
-  this._colorPalette = null;
-  paletteX = 0;
-  paletteY = 160;
-  stopDispatch = 0;
-  stopControls = 0;
-
-};
-
-ColorFall.Game2.prototype = {
-  create: function(){
+	  paletteSig = null;
+	  this._colorPalette = null;
+	  paletteX = 0;
+	  paletteY = 160;
+	  stopDispatch = 0;
+	  stopControls = 0;
+  }
+function game2create(){
   	/* Music */
     music = this.add.audio('rickroll');
     music.play('', 0, 1, true, true);
@@ -86,7 +83,7 @@ ColorFall.Game2.prototype = {
       this._colorPalette = this.add.group();
       console.log(caughtColors);
 
-      this.add.button((ColorFall.GAME_WIDTH-324)/2, 80, 'again', this.resetGame, this);
+      this.add.button((ColorFall.GAME_WIDTH-324)/2, 60, 'again', this.resetGame, this);
       this.add.button((ColorFall.GAME_WIDTH-155)/2, 350, 'twitter', this.shareTwitter, this);
       this.add.button((ColorFall.GAME_WIDTH-155)/2, 400, 'fb', this.shareFB, this);
 
@@ -158,18 +155,21 @@ ColorFall.Game2.prototype = {
 
     this._penguin.body.velocity.x = 0;
 
-  },
-  shareFB: function() {
+  }
+
+  function game2shareFB() {
     var url = "https://colorfall.herokuapp.com/gameresult/" + gameresult._id;
     var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" +encodeURIComponent(url);
     window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
-  },
-  shareTwitter: function() {
+  }
+
+  function game2shareTwitter() {
     var url = "https://colorfall.herokuapp.com/gameresult/" + gameresult._id;
     var shareURL = "https://www.twitter.com/share?url=" +encodeURIComponent(url);
     window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
-  },
-  saveGameResult: function(base64Url) {
+  }
+
+  function game2saveResult(base64Url) {
     var gameResult = {
         imgBase64: base64Url
     };
@@ -178,8 +178,9 @@ ColorFall.Game2.prototype = {
         gameresult =data;
         console.log(data);
     });
-  },
-  muteSound: function() {
+  }
+
+  function game2muteSound() {
     music.pause();
     this._pauseButton.setFrames(1, 1, 1);
 
@@ -187,8 +188,9 @@ ColorFall.Game2.prototype = {
       music.resume();
       this._pauseButton.setFrames(0, 0, 0);
     }, this);
-  },
-  pauseGame: function(){
+  }
+
+  function game2pauseGame(){
     this.game.paused = true;
     var pausedText = this.add.sprite((ColorFall.GAME_WIDTH-204)/2, 400, 'paused');
     this._pauseButton.setFrames(1, 1, 1);
@@ -198,8 +200,9 @@ ColorFall.Game2.prototype = {
       this.game.paused = false;
       this._pauseButton.setFrames(0, 0, 0);
     }, this);
-  },
-  resetGame: function(){
+  }
+
+  function game2resetGame(){
     stopControls = 0;
     stopDispatch = 0;
     caughtColors = [];
@@ -210,8 +213,9 @@ ColorFall.Game2.prototype = {
     this._penguin.frame = 0;
     this._cursors = this.input.keyboard.start();
     this.state.start('Game');
-  },
-  update: function(){
+  }
+
+  function game2update(){
     // Set Color Count
     if (colorCount == 64) {
 
@@ -233,6 +237,8 @@ ColorFall.Game2.prototype = {
     if (stopControls === 0) {
     	//TODO fireicicle
       if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+      	ColorFall.item.fireIcicle(this._penguin, this);
+       } else if (this.input.activePointer.isDown) {
       	ColorFall.item.fireIcicle(this._penguin, this);
       }
       if (this._cursors.left.isDown) {
@@ -258,9 +264,23 @@ ColorFall.Game2.prototype = {
 
     this.physics.arcade.overlap(this._icicleGroup, this._colorGroup, ColorFall.item.getColor, null, this);
   }
+
+ColorFall.Game2 = function(game){};
+
+ColorFall.Game2.prototype = {
+  init: game2init,
+  create: game2create,
+  shareFB: game2shareFB,
+  shareTwitter: game2shareTwitter,
+  saveGameResult: game2saveResult,
+  muteSound: game2muteSound,
+  pauseGame: game2pauseGame,
+  resetGame: game2resetGame,
+  update: game2update
 };
 
-ColorFall.item = {
+//ColorFall.item = null;
+game2item = {
   spawnColor: function(game){
     var dropPos = Math.floor(Math.random()*(ColorFall.GAME_HEIGHT-100));
     var colorType = Math.floor(Math.random()*216);

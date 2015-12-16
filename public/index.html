@@ -19,7 +19,8 @@
     	<script src="js/boot.js"></script>
     	<script src="js/preload.js"></script>
     	<script src="js/mainmenu.js"></script>
-    	<!-- TODO FIGURE OUT WHY LOADS BUG -->
+    	<script src="js/pickgame.js"></script>
+    	<!-- TODO FIGURE OUT WHY -->
     	<script src="js/game.js"></script>
     	<script src="js/shooter.js"></script>
     	<script src="js/colorsmap.js"></script>
@@ -35,7 +36,9 @@
 			  game.state.add('Boot', ColorFall.Boot);
 			  game.state.add('Preloader', ColorFall.Preloader);
 			  game.state.add('MainMenu', ColorFall.MainMenu);
-			  game.state.add('Game', ColorFall.Game2);
+			  game.state.add('PickGame', ColorFall.PickGame);
+			  game.state.add('Classic', ColorFall.Game1);
+			  game.state.add('Shooter', ColorFall.Game2);
 			  game.state.start('Boot');
 			})();  
 		</script>

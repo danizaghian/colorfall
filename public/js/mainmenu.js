@@ -24,11 +24,10 @@ ColorFall.MainMenu.prototype = {
     penguin.animations.play('jump', 15, true);
 
     /* Start */
-
-    this.add.button((ColorFall.GAME_WIDTH-155)/2, 520, 'start', this.startGame, this);
+    this.add.button((ColorFall.GAME_WIDTH-155)/2, 520, 'start', this.pickGame, this);
   },
-  startGame: function() {
-    this.state.start('Game');
+  pickGame: function() {
+    this.state.start('PickGame');
   }
 
 };

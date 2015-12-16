@@ -229,32 +229,36 @@ var colorsMap = {
   '215': 'eeeeee',
 };
 
-ColorFall.Game1 = function(game){
-  this._pauseButton = null;
-  this._fontStyle = null;
-  this._countText = null;
-
-  this._colorGroup = null;
-  this._spawnColorTimer = 0;
-
-  this._cursors = null;
-
-  this._penguin = null;
-
-  caughtColors = [];
-  colorCount = 0;
-  colorSplash = null;
-
-  paletteSig = null;
-  this._colorPalette = null;
-  paletteX = 0;
-  paletteY = 160;
-  stopDispatch = 0;
-  stopControls = 0;
-};
+ColorFall.Game1 = function(game){};
 
 ColorFall.Game1.prototype = {
+    init: function() {
+    this._pauseButton = null;
+    this._fontStyle = null;
+    this._countText = null;
+
+    this._colorGroup = null;
+    this._spawnColorTimer = 0;
+
+    this._cursors = null;
+
+    this._penguin = null;
+
+    caughtColors = [];
+    colorCount = 0;
+    colorSplash = null;
+
+    paletteSig = null;
+    this._colorPalette = null;
+    paletteX = 0;
+    paletteY = 160;
+    stopDispatch = 0;
+    stopControls = 0;
+  },
   create: function(){
+    /* Music */
+    music = this.add.audio('safetydance');
+    music.play('', 0, 1, true, true);
     /* Background */
     this.add.tileSprite(0, 0, 640, 960, 'background');
 
@@ -292,7 +296,7 @@ ColorFall.Game1.prototype = {
       this._colorPalette = this.add.group();
       console.log(caughtColors);
 
-      this.add.button((ColorFall.GAME_WIDTH-324)/2, 80, 'again', this.resetGame, this);
+      this.add.button((ColorFall.GAME_WIDTH-324)/2, 60, 'again', this.resetGame, this);
       this.add.button((ColorFall.GAME_WIDTH-155)/2, 350, 'twitter', this.shareTwitter, this);
       this.add.button((ColorFall.GAME_WIDTH-155)/2, 400, 'fb', this.shareFB, this);
 
@@ -462,7 +466,7 @@ ColorFall.Game1.prototype = {
   }
 };
 
-ColorFall.item = {
+var game1item = {
   spawnColor: function(game){
     var dropPos = Math.floor(Math.random()*(ColorFall.GAME_WIDTH-20));
     var colorType = Math.floor(Math.random()*216);

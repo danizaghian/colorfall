@@ -52,7 +52,7 @@ app.get('/gameresult/:id', function (req, res, next){
         imageWidth: 360,
         imageHeight: 360,
         //TODO
-        desc: 'I made art!'
+        desc: 'I made a piece of art! Check out Colorfall to create your own pixelated masterpiece.'
       };
 
       var html ='';

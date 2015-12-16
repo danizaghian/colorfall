@@ -12,6 +12,8 @@ ColorFall.Preloader.prototype = {
     this.load.image('danis', 'img/danis.png');
     this.load.image('title', 'img/title.png');
     this.load.image('start', 'img/start.png');
+    this.load.image('classic', 'img/classic.png');
+    this.load.image('shooter', 'img/shooter.png');
     this.load.image('paused', 'img/paused.png');
     this.load.image('again', 'img/play-again.png');
     this.load.image('icicle', 'img/icicle.png');
