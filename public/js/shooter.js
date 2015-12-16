@@ -1,3 +1,5 @@
+
+
 function game2init() {
 	  //variables
 	  this._pauseButton = null;
