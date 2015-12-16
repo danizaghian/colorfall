@@ -266,11 +266,11 @@ ColorFall.Game1.prototype = {
     this._pauseButton = this.add.button(ColorFall.GAME_WIDTH-42, 16, 'pause', this.pauseGame, this, 0, 0, 0);
 
     /* Mute Button */
-    //this._muteButton = this.add.button(20, 16, 'pause', this.muteSound, this, 0, 0, 0);
+    //this._muteButton = this.add.button(ColorFall.GAME_WIDTH-92, 16, 'pause', this.muteSound, this, 0, 0, 0);
 
     /* Count Text */
     this._fontStyle = { font: '20px Helvetica', fill: '#666', align: 'left' };
-    this._countText = this.add.text((ColorFall.GAME_WIDTH/2 - 16), 20, colorCount+' / 64', this._fontStyle);
+    this._countText = this.add.text(20, 16, colorCount+' / 64', this._fontStyle);
 
     /* Physics */
     this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -296,9 +296,9 @@ ColorFall.Game1.prototype = {
       this._colorPalette = this.add.group();
       console.log(caughtColors);
 
-      this.add.button((ColorFall.GAME_WIDTH-324)/2, 60, 'again', this.resetGame, this);
-      this.add.button((ColorFall.GAME_WIDTH-155)/2, 350, 'twitter', this.shareTwitter, this);
-      this.add.button((ColorFall.GAME_WIDTH-155)/2, 400, 'fb', this.shareFB, this);
+      this.add.button((ColorFall.GAME_WIDTH-310)/2, 30, 'again', this.resetGame, this);
+      this.add.button((ColorFall.GAME_WIDTH-530)/2, 80, 'fb', this.shareFB, this);
+      this.add.button((ColorFall.GAME_WIDTH + 70)/2, 80, 'twitter', this.shareTwitter, this);
 
       //seeding canvas
       var canvasImg = new Image();
@@ -419,7 +419,7 @@ ColorFall.Game1.prototype = {
     this._countText.setText(colorCount+' / 64');
     this._penguin.frame = 0;
     this._cursors = this.input.keyboard.start();
-    this.state.start('Game');
+    this.state.start('PickGame');
   },
   update: function(){
     // Set Color Count

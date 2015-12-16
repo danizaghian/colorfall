@@ -41,7 +41,7 @@ function game2create(){
 
     /* Count Text */
     this._fontStyle = { font: '20px Helvetica', fill: '#666', align: 'left' };
-    this._countText = this.add.text((ColorFall.GAME_WIDTH/2 - 16), 20, colorCount+' / 64', this._fontStyle);
+    this._countText = this.add.text(20, 16, colorCount+' / 64', this._fontStyle);
 
     /* Physics */
     this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -83,9 +83,9 @@ function game2create(){
       this._colorPalette = this.add.group();
       console.log(caughtColors);
 
-      this.add.button((ColorFall.GAME_WIDTH-324)/2, 60, 'again', this.resetGame, this);
-      this.add.button((ColorFall.GAME_WIDTH-155)/2, 350, 'twitter', this.shareTwitter, this);
-      this.add.button((ColorFall.GAME_WIDTH-155)/2, 400, 'fb', this.shareFB, this);
+      this.add.button((ColorFall.GAME_WIDTH-310)/2, 30, 'again', this.resetGame, this);
+      this.add.button((ColorFall.GAME_WIDTH-530)/2, 80, 'fb', this.shareFB, this);
+      this.add.button((ColorFall.GAME_WIDTH + 70)/2, 80, 'twitter', this.shareTwitter, this);
 
       //seeding canvas
       var canvasImg = new Image();
@@ -169,6 +169,7 @@ function game2create(){
     window.open(shareURL, "", "height=440,width=640,scrollbars=yes");
   }
 
+  //TODO FIX
   function game2saveResult(base64Url) {
     var gameResult = {
         imgBase64: base64Url
@@ -212,7 +213,7 @@ function game2create(){
     this._countText.setText(colorCount+' / 64');
     this._penguin.frame = 0;
     this._cursors = this.input.keyboard.start();
-    this.state.start('Game');
+    this.state.start('PickGame');
   }
 
   function game2update(){
