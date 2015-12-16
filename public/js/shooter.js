@@ -48,7 +48,7 @@ ColorFall.Game2.prototype = {
 
     /* Physics */
     this.physics.startSystem(Phaser.Physics.ARCADE);
-    this.physics.arcade.gravity.x = 200;
+    this.physics.arcade.gravity.x = 100;
 
     /* Falling Colors */
     this._spawnColorTimer = 0;
@@ -223,7 +223,7 @@ ColorFall.Game2.prototype = {
       } else {
 
       this._spawnColorTimer += this.time.elapsed;
-      if(this._spawnColorTimer > 1000) {
+      if(this._spawnColorTimer > 600) {
         this._spawnColorTimer = 0;
         ColorFall.item.spawnColor(this);
       }
@@ -304,7 +304,7 @@ ColorFall.item = {
         {
             icicle.reset(penguin.position.x + 40, penguin.position.y - 20);
             icicle.body.velocity.y = -300;
-            icicle.body.velocity.x = 0;
+            icicle.body.allowGravity = false;
             game._icicleTimer = game.time.now + 150;
         }
     }
