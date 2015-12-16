@@ -190,6 +190,7 @@ ColorFall.Game1.prototype = {
     this._countText.setText(colorCount+' / 64');
     this._penguin.frame = 0;
     this._cursors = this.input.keyboard.start();
+    music.pause();
     this.state.start('PickGame');
   },
   update: function(){
