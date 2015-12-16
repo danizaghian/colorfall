@@ -19,8 +19,9 @@
     	<script src="js/boot.js"></script>
     	<script src="js/preload.js"></script>
     	<script src="js/mainmenu.js"></script>
-    	<script src="js/shooter.js"></script>
+    	<!-- TODO FIGURE OUT WHY LOADS BUG -->
     	<script src="js/game.js"></script>
+    	<script src="js/shooter.js"></script>
     	<script src="js/colorsmap.js"></script>
 
     	<!-- Hidden canvas image div -->
@@ -34,7 +35,7 @@
 			  game.state.add('Boot', ColorFall.Boot);
 			  game.state.add('Preloader', ColorFall.Preloader);
 			  game.state.add('MainMenu', ColorFall.MainMenu);
-			  game.state.add('Game', ColorFall.Game1);
+			  game.state.add('Game', ColorFall.Game2);
 			  game.state.start('Boot');
 			})();  
 		</script>

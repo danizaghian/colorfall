@@ -1,6 +1,6 @@
 ColorFall.Game2 = function(game){
 //variables
-
+  this._pauseButton = null;
   this._fontStyle = null;
   this._countText = null;
 
@@ -57,6 +57,8 @@ ColorFall.Game2.prototype = {
 
     /* Icicles */
     this._icicleGroup = this.add.group();
+    this._icicleGroup.enableBody = true;
+    this._icicleGroup.physicsBodyType = Phaser.Physics.ARCADE;
     for (var i = 0; i < 20; i++)
     {
         var icicle = this._icicleGroup.create(0, 0, 'icicle');
@@ -64,7 +66,7 @@ ColorFall.Game2.prototype = {
         icicle.exists = false;
         icicle.visible = false;
         icicle.checkWorldBounds = true;
-        icicle.events.onOutOfBounds.add(resetIcicle, this);
+        icicle.events.onOutOfBounds.add(ColorFall.item.removeIcicle, icicle);
     }
 
     /* Splash Emitter */
@@ -231,7 +233,7 @@ ColorFall.Game2.prototype = {
     if (stopControls === 0) {
     	//TODO fireicicle
       if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-      	ColorFall.item.fireIcicle(this);
+      	ColorFall.item.fireIcicle(this._penguin, this);
       }
       if (this._cursors.left.isDown) {
         this._penguin.body.velocity.x = -400;
@@ -274,11 +276,12 @@ ColorFall.item = {
   removeColor: function(colorSprite){
     colorSprite.kill();
   },
-  getColor: function(penguin, color){
-  	removeIcicle();
+  getColor: function(icicle, color){
+  	icicle.kill();
     color.kill();
     colorSplash.makeParticles('splash', color._frame.index);
-    colorSplash.x = penguin.position.x + 16;
+    colorSplash.x = color.position.x + 16;
+    colorSplash.y = color.position.y;
     colorSplash.start(true, 2000, null, 10);
 
     // Set Color Count
@@ -291,22 +294,18 @@ ColorFall.item = {
   removeIcicle: function(icicle){
   	icicle.kill();
   },
-  fireIcicle: function (game) {
-  	var icicle = game.add.sprite(200, 800, 'icicle');
-  	game.physics.enable(icicle, Phaser.Physics.ARCADE);
-  	icicle.checkWorldBounds = true;
-    icicle.events.onOutOfBounds.add(this.removeIcicle, this);
-    game._icicleGroup.add(icicle);
+  fireIcicle: function (penguin, game) {
 
-  	if (game.time.now > this._icicleTimer)
+  	if (game.time.now > game._icicleTimer)
     {
-        icicle = this._icicleGroup.getFirstExists(false);
+        icicle = game._icicleGroup.getFirstExists(false);
 
         if (icicle)
         {
-            icicle.reset(this._penguin.x + 6, this._penguin.y - 8);
+            icicle.reset(penguin.position.x + 40, penguin.position.y - 20);
             icicle.body.velocity.y = -300;
-            this._icicleTimer = game.time.now + 150;
+            icicle.body.velocity.x = 0;
+            game._icicleTimer = game.time.now + 150;
         }
     }
 
