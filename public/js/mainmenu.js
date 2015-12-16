@@ -5,9 +5,9 @@ ColorFall.MainMenu.prototype = {
     /* Background */
     this.add.tileSprite(0, 0, 640, 960, 'background');
 
-    /* Music */
-    music = this.add.audio('music');
-    music.play('', 0, 1, true, true);
+    // /* Music */
+    // music = this.add.audio('safetydance');
+    // music.play('', 0, 1, true, true);
 
     /* Title */
     this.add.sprite((ColorFall.GAME_WIDTH-470)/2, 260, 'danis');

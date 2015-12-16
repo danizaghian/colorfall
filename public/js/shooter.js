@@ -8,11 +8,12 @@ ColorFall.Game2 = function(game){
   this._spawnColorTimer = 0;
 
   this._cursors = null;
-  this._fire = null;
 
   this._penguin = null;
 
+  this._icicleGroup = null;
   this._icicles = null;
+  this._icicleTimer = 0;
 
   caughtColors = [];
   colorCount = 0;
@@ -29,6 +30,9 @@ ColorFall.Game2 = function(game){
 
 ColorFall.Game2.prototype = {
   create: function(){
+  	/* Music */
+    music = this.add.audio('rickroll');
+    music.play('', 0, 1, true, true);
     /* Background */
     this.add.tileSprite(0, 0, 640, 960, 'background');
 
@@ -51,13 +55,25 @@ ColorFall.Game2.prototype = {
     this._colorGroup = this.add.group();
     ColorFall.item.spawnColor(this);
 
+    /* Icicles */
+    this._icicleGroup = this.add.group();
+    for (var i = 0; i < 20; i++)
+    {
+        var icicle = this._icicleGroup.create(0, 0, 'icicle');
+        icicle.name = 'icicle' + i;
+        icicle.exists = false;
+        icicle.visible = false;
+        icicle.checkWorldBounds = true;
+        icicle.events.onOutOfBounds.add(resetIcicle, this);
+    }
+
     /* Splash Emitter */
     colorSplash = this.add.emitter(0, 840, 5);
     colorSplash.gravity = 200;
 
     /* Add Key Input */
     this._cursors = this.input.keyboard.createCursorKeys();
-    this._fire = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    this.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 
 
     /* Final Palette Creation */
@@ -202,7 +218,7 @@ ColorFall.Game2.prototype = {
         this.add.tween(this._colorGroup).to( { alpha: 0 }, 250, Phaser.Easing.Linear.None, true);
       }
 
-    } else {
+      } else {
 
       this._spawnColorTimer += this.time.elapsed;
       if(this._spawnColorTimer > 1000) {
@@ -213,6 +229,10 @@ ColorFall.Game2.prototype = {
     }
 
     if (stopControls === 0) {
+    	//TODO fireicicle
+      if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+      	ColorFall.item.fireIcicle(this);
+      }
       if (this._cursors.left.isDown) {
         this._penguin.body.velocity.x = -400;
         this._penguin.animations.play('jump', 15, true);
@@ -234,7 +254,7 @@ ColorFall.Game2.prototype = {
       this._penguin.animations.play('jump', 15, true);
     }
 
-    this.physics.arcade.overlap(this._colorGroup, this._penguin, ColorFall.item.getColor, null, this);
+    this.physics.arcade.overlap(this._icicleGroup, this._colorGroup, ColorFall.item.getColor, null, this);
   }
 };
 
@@ -242,17 +262,12 @@ ColorFall.item = {
   spawnColor: function(game){
     var dropPos = Math.floor(Math.random()*(ColorFall.GAME_HEIGHT-100));
     var colorType = Math.floor(Math.random()*216);
-
     var colorSprite = game.add.sprite(ColorFall.GAME_WIDTH-660, dropPos, 'colors');
-
     colorSprite.animations.add('anim', [colorType], 10, true);
     colorSprite.animations.play('anim');
-
     game.physics.enable(colorSprite, Phaser.Physics.ARCADE);
-
     colorSprite.checkWorldBounds = true;
     colorSprite.events.onOutOfBounds.add(this.removeColor, this);
-
     game._colorGroup.add(colorSprite);
 
   },
@@ -260,6 +275,7 @@ ColorFall.item = {
     colorSprite.kill();
   },
   getColor: function(penguin, color){
+  	removeIcicle();
     color.kill();
     colorSplash.makeParticles('splash', color._frame.index);
     colorSplash.x = penguin.position.x + 16;
@@ -271,5 +287,28 @@ ColorFall.item = {
       colorCount = caughtColors.length;
       this._countText.setText(colorCount+' / 64');
     }
+  },
+  removeIcicle: function(icicle){
+  	icicle.kill();
+  },
+  fireIcicle: function (game) {
+  	var icicle = game.add.sprite(200, 800, 'icicle');
+  	game.physics.enable(icicle, Phaser.Physics.ARCADE);
+  	icicle.checkWorldBounds = true;
+    icicle.events.onOutOfBounds.add(this.removeIcicle, this);
+    game._icicleGroup.add(icicle);
+
+  	if (game.time.now > this._icicleTimer)
+    {
+        icicle = this._icicleGroup.getFirstExists(false);
+
+        if (icicle)
+        {
+            icicle.reset(this._penguin.x + 6, this._penguin.y - 8);
+            icicle.body.velocity.y = -300;
+            this._icicleTimer = game.time.now + 150;
+        }
+    }
+
   }
 };

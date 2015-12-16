@@ -429,7 +429,7 @@ ColorFall.Game1.prototype = {
     } else {
 
       this._spawnColorTimer += this.time.elapsed;
-      if(this._spawnColorTimer > 1000) {
+      if(this._spawnColorTimer > 600) {
         this._spawnColorTimer = 0;
         ColorFall.item.spawnColor(this);
       }
