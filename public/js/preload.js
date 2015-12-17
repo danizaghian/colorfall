@@ -4,6 +4,9 @@ ColorFall.Preloader = function(game){
 };
 ColorFall.Preloader.prototype = {
   preload: function(){
+    var loadingBar = this.add.sprite(this.world.centerX - 100, this.world.centerY, 'loading');
+    this.load.setPreloadSprite(loadingBar);
+
     this.stage.backgroundColor = '#fff';
 
     this.load.image('fb', 'img/fb.png');
