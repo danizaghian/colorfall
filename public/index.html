@@ -16,6 +16,15 @@
 	</head>
 
 	<body>
+	<!-- checking browser, redirecting if FF or IE -->
+	<script type='text/javascript'>
+        var ua = navigator.userAgent;
+        var ie = ua.match(/MSIE/);
+        var ff = ua.match(/Firefox/);
+        if(ie || ff) {
+        	window.location = 'browser.html';
+        }
+    </script>
 	    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     	<script src="js/phaser.min.js"></script>
     	<script src="js/boot.js"></script>
