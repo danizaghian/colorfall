@@ -21,7 +21,7 @@ ColorFall.PickGame.prototype = {
     var glacier = this.add.sprite(0, 910, "glacier");
 
     /* Penguin */
-    var penguin = this.add.sprite(292, 820, 'penguin');
+    var penguin = this.add.sprite(282, 820, 'penguin');
     penguin.animations.add('jump', [0,1,2,3,4,5,6,7,8,9]);
     penguin.animations.play('jump', 15, true);
  },

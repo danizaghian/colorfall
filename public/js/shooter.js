@@ -146,7 +146,7 @@ function game2create(){
     var glacier = this.add.sprite(0, 910, "glacier");
 
     /* Penguin */
-    this._penguin = this.add.sprite(292, 820, 'penguin');
+    this._penguin = this.add.sprite(282, 820, 'penguin');
     this.physics.enable(this._penguin, Phaser.Physics.ARCADE);
 
     this._penguin.body.setSize(75, 106, 8, 14);

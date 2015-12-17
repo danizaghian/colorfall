@@ -128,7 +128,7 @@ ColorFall.Game1.prototype = {
     var glacier = this.add.sprite(0, 920, "glacier");
 
     /* Penguin */
-    this._penguin = this.add.sprite(292, 830, 'penguin');
+    this._penguin = this.add.sprite(282, 830, 'penguin');
     this.physics.enable(this._penguin, Phaser.Physics.ARCADE);
 
     this._penguin.body.setSize(75, 106, 8, 14);
