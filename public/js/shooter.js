@@ -241,9 +241,10 @@ function game2create(){
     }
 
     if (stopControls === 0) {
-    	//TODO fireicicle
+    	//if space is pressed, fire icicle
       if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
       	ColorFall.item.fireIcicle(this._penguin, this);
+      	//if cursor is down (for touch) fire icicle
        } else if (this.input.activePointer.isDown) {
       	ColorFall.item.fireIcicle(this._penguin, this);
       }
@@ -331,6 +332,8 @@ game2item = {
             icicle.reset(penguin.position.x + 35, penguin.position.y - 20);
             icicle.body.velocity.y = -300;
             icicle.body.allowGravity = false;
+            //GET RID OF PENGUIN BUG ON MOBILE
+            penguin.body.allowGravity = false;
             game._icicleTimer = game.time.now + 400;
         }
     }
