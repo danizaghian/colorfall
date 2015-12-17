@@ -289,7 +289,7 @@ ColorFall.Game2.prototype = {
 //ColorFall.item = null;
 game2item = {
   spawnColor: function(game){
-    var dropPos = Math.floor(Math.random()*(ColorFall.GAME_HEIGHT-100));
+    var dropPos = Math.floor(Math.random()*(ColorFall.GAME_HEIGHT-160));
     var colorType = Math.floor(Math.random()*216);
     var colorSprite = game.add.sprite(ColorFall.GAME_WIDTH-660, dropPos, 'colors');
     colorSprite.animations.add('anim', [colorType], 10, true);
