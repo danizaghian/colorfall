@@ -26,10 +26,12 @@ ColorFall.PickGame.prototype = {
     penguin.animations.play('jump', 15, true);
  },
   startClassic: function() {
+    music.destroy();
     ColorFall.item = game1item;
     this.state.start('Classic');
   },
   startShooter: function () {
+    music.destroy();
     ColorFall.item = game2item;
     this.state.start('Shooter');
 

@@ -22,8 +22,9 @@ ColorFall.Preloader.prototype = {
     this.load.spritesheet('splash', 'img/splash.png', 5, 5);
     this.load.spritesheet('penguin', 'img/penguin.png', 102, 102);
     this.load.spritesheet('glacier', 'img/glacier.png');
-    this.load.audio('safetydance', ['img/safetydance.mp3', 'safetydance.ogg']);
-    this.load.audio('rickroll', ['img/rickroll.mp3', 'rickroll.ogg']);
+    this.load.audio('safetydance', ['img/safetydance.mp3', 'img/safetydance.ogg']);
+    this.load.audio('rickroll', ['img/rickroll.mp3', 'img/rickroll.ogg']);
+    this.load.audio('intro', ['img/intro.wav', 'img/intro.ogg']);
 
   },
   create: function(){
