@@ -8,7 +8,7 @@ ColorFall.PickGame.prototype = {
 
     /* Classic */
     this.add.button((ColorFall.GAME_WIDTH-200)/2, 200, 'classic', this.startClassic, this);
-    var classicText = this.add.text(ColorFall.GAME_WIDTH/2, 270, 'Use the arrow keys to catch colors as they fall.\nOnce you catch 64, see your masterpiece!', fontstyle);
+    var classicText = this.add.text(ColorFall.GAME_WIDTH/2, 270, 'Use the arrow keys to catch colors as they fall.\nOnce you catch 64, see your artwork!', fontstyle);
     classicText.anchor.set(0.5);
 
 
@@ -17,8 +17,11 @@ ColorFall.PickGame.prototype = {
     var shooterText = this.add.text(ColorFall.GAME_WIDTH/2, 620, "Use the arrow keys and space bar to shoot colors\nas they fly across the screen. Shoot 64 to see your mosaic!", fontstyle);
     shooterText.anchor.set(0.5);
 
+    /* Glacier */
+    var glacier = this.add.sprite(0, 910, "glacier");
+
     /* Penguin */
-    var penguin = this.add.sprite(292, 840, 'penguin');
+    var penguin = this.add.sprite(292, 820, 'penguin');
     penguin.animations.add('jump', [0,1,2,3,4,5,6,7,8,9]);
     penguin.animations.play('jump', 15, true);
  },

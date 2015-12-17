@@ -31,7 +31,7 @@ function game2init() {
 function game2create(){
   	/* Music */
     music = this.add.audio('rickroll');
-    music.play('', 0, 1, true, true);
+    music.play('', 0, 0.3, true, true);
     /* Background */
     this.add.tileSprite(0, 0, 640, 960, 'background');
 
@@ -142,8 +142,11 @@ function game2create(){
       stopDispatch = 1;
     }, this);
 
+	/* Glacier */
+    var glacier = this.add.sprite(0, 910, "glacier");
+
     /* Penguin */
-    this._penguin = this.add.sprite(292, 840, 'penguin');
+    this._penguin = this.add.sprite(292, 820, 'penguin');
     this.physics.enable(this._penguin, Phaser.Physics.ARCADE);
 
     this._penguin.body.setSize(75, 106, 8, 14);
@@ -215,7 +218,7 @@ function game2create(){
     this._countText.setText(colorCount+' / 64');
     this._penguin.frame = 0;
     this._cursors = this.input.keyboard.start();
-    music.pause();
+    music.destroy();
     this.state.start('PickGame');
   }
 
@@ -326,10 +329,10 @@ game2item = {
 
         if (icicle)
         {
-            icicle.reset(penguin.position.x + 40, penguin.position.y - 20);
+            icicle.reset(penguin.position.x + 35, penguin.position.y - 20);
             icicle.body.velocity.y = -300;
             icicle.body.allowGravity = false;
-            game._icicleTimer = game.time.now + 150;
+            game._icicleTimer = game.time.now + 400;
         }
     }
 

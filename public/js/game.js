@@ -29,7 +29,7 @@ ColorFall.Game1.prototype = {
   create: function(){
     /* Music */
     music = this.add.audio('safetydance');
-    music.play('', 0, 1, true, true);
+    music.play('', 0, 0.3, true, true);
     /* Background */
     this.add.tileSprite(0, 0, 640, 960, 'background');
 
@@ -124,8 +124,11 @@ ColorFall.Game1.prototype = {
       stopDispatch = 1;
     }, this);
 
+    /* Glacier */
+    var glacier = this.add.sprite(0, 920, "glacier");
+
     /* Penguin */
-    this._penguin = this.add.sprite(292, 840, 'penguin');
+    this._penguin = this.add.sprite(292, 830, 'penguin');
     this.physics.enable(this._penguin, Phaser.Physics.ARCADE);
 
     this._penguin.body.setSize(75, 106, 8, 14);
@@ -190,7 +193,7 @@ ColorFall.Game1.prototype = {
     this._countText.setText(colorCount+' / 64');
     this._penguin.frame = 0;
     this._cursors = this.input.keyboard.start();
-    music.pause();
+    music.destroy();
     this.state.start('PickGame');
   },
   update: function(){
