@@ -1,10 +1,10 @@
-var mongoose = require("mongoose");
+// var mongoose = require("mongoose");
 
-var Schema = mongoose.Schema;
+// var Schema = mongoose.Schema;
 
-var GameResultSchema = new Schema({
-    imgurl: String
-});
+// var GameResultSchema = new Schema({
+//     imgurl: String
+// });
 
-var GameResult = mongoose.model('GameResult', GameResultSchema);
-module.exports = GameResult;
+// var GameResult = mongoose.model('GameResult', GameResultSchema);
+// module.exports = GameResult;

@@ -26,124 +26,124 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 //ROUTES
 
-app.get('/gameresult/:id', function (req, res, next){
-  var userAgent =req.headers['user-agent'];
-  var socialScraper =false;
-  if(userAgent !==undefined && (userAgent.indexOf('facebookexternalhit') >-1 || userAgent.indexOf('Facebot') >-1)) {
-    socialScraper ='facebook';
-  }
-  else if(userAgent !==undefined && (userAgent.indexOf('Twitterbot') >-1)) {
-    socialScraper ='twitter';
-  }
+// app.get('/gameresult/:id', function (req, res, next){
+//   var userAgent =req.headers['user-agent'];
+//   var socialScraper =false;
+//   if(userAgent !==undefined && (userAgent.indexOf('facebookexternalhit') >-1 || userAgent.indexOf('Facebot') >-1)) {
+//     socialScraper ='facebook';
+//   }
+//   else if(userAgent !==undefined && (userAgent.indexOf('Twitterbot') >-1)) {
+//     socialScraper ='twitter';
+//   }
 
-  if(socialScraper) {
+//   if(socialScraper) {
 
-    db.GameResult.findOne({_id: req.params.id}, function (err, gameresult) {
-      console.log(gameresult);
-      //res.json(gameresult);
+//     db.GameResult.findOne({_id: req.params.id}, function (err, gameresult) {
+//       console.log(gameresult);
+//       //res.json(gameresult);
 
-      var meta ={
-        title: 'Colorfall',
-        url: 'https://colorfall.herokuapp.com/gameresult/'+gameresult._id,
-        // image: 'https://colorfall.herokuapp.com' + gameresult.imgurl,
-        image: 'https://s3-us-west-1.amazonaws.com/colorfall-images/' + gameresult.imgurl,
-        // hack to get image to show up first time:
-        // http://stackoverflow.com/a/27424085/5551755
-        imageWidth: 360,
-        imageHeight: 360,
-        //TODO
-        desc: 'I made a piece of art! Check out Colorfall to create your own pixelated masterpiece.'
-      };
+//       var meta ={
+//         title: 'Colorfall',
+//         url: 'https://colorfall.herokuapp.com/gameresult/'+gameresult._id,
+//         // image: 'https://colorfall.herokuapp.com' + gameresult.imgurl,
+//         image: 'https://s3-us-west-1.amazonaws.com/colorfall-images/' + gameresult.imgurl,
+//         // hack to get image to show up first time:
+//         // http://stackoverflow.com/a/27424085/5551755
+//         imageWidth: 360,
+//         imageHeight: 360,
+//         //TODO
+//         desc: 'I made a piece of art! Check out Colorfall to create your own pixelated masterpiece.'
+//       };
 
-      var html ='';
-      html ="<!DOCTYPE html>"+
-      "<html lang='en'>"+
-      "<head>";
+//       var html ='';
+//       html ="<!DOCTYPE html>"+
+//       "<html lang='en'>"+
+//       "<head>";
       
-      var title1 =meta.title;
-      var desc1 =meta.desc;
-      var siteName ='colorfall';
-      var fbAppId ='1727020734193995';
+//       var title1 =meta.title;
+//       var desc1 =meta.desc;
+//       var siteName ='colorfall';
+//       var fbAppId ='1727020734193995';
         
-      if(socialScraper =='facebook') {
-        html +="<meta property='og:title' content='"+title1+"' />"+
-        "<meta property='og:site_name' content='"+siteName+"' />"+
-        "<meta property='og:url' content='"+meta.url+"' />"+
-        "<meta property='og:description' content='"+desc1+"' />"+
-        "<meta property='og:image' content='"+meta.image+"' />"+
-        "<meta property='og:image:width' content='"+meta.imageWidth+"' />"+
-        "<meta property='og:image:height' content='"+meta.imageHeight+"' />"+
-        "<meta property='fb:app_id' content='"+fbAppId+"' />";
-      }
-       else if(socialScraper =='twitter') {
-        // temp data to make it work (in validator)
-        // https://dev.twitter.com/cards/types/summary-large-image
-        // don't worry about it.
-        desc1 ="I made a piece of art! Check out colorfall to create your own pixelated masterpiece. Choose from 2 different play modes: collect 64 colors to create a unique design! NEWARK - The guest list and parade of limousines with celebrities emerging from them seemed more suited to a red carpet event in Hollywood or New York than than a gritty stretch of Sussex Avenue near the former site of the James M. Baxter Terrace public housing project here.";
-        html +="<meta name='twitter:card' content='summary' />"+
-        "<meta name='twitter:site' content='@ColorfallGame' />"+
-        "<meta name='twitter:creator' content='@ColorfallGame' />"+
-        "<meta name='twitter:url' content='"+meta.url+"' />"+
-        "<meta name='twitter:title' content='"+title1+"' />"+
-        "<meta name='twitter:description' content='"+desc1+"' />"+
-        "<meta name='twitter:image' content='"+meta.image+"' />";
-      }
-      html +="</head>"+
-      "<body>"+
-      "</body>"+
-      "</html>";
+//       if(socialScraper =='facebook') {
+//         html +="<meta property='og:title' content='"+title1+"' />"+
+//         "<meta property='og:site_name' content='"+siteName+"' />"+
+//         "<meta property='og:url' content='"+meta.url+"' />"+
+//         "<meta property='og:description' content='"+desc1+"' />"+
+//         "<meta property='og:image' content='"+meta.image+"' />"+
+//         "<meta property='og:image:width' content='"+meta.imageWidth+"' />"+
+//         "<meta property='og:image:height' content='"+meta.imageHeight+"' />"+
+//         "<meta property='fb:app_id' content='"+fbAppId+"' />";
+//       }
+//        else if(socialScraper =='twitter') {
+//         // temp data to make it work (in validator)
+//         // https://dev.twitter.com/cards/types/summary-large-image
+//         // don't worry about it.
+//         desc1 ="I made a piece of art! Check out colorfall to create your own pixelated masterpiece. Choose from 2 different play modes: collect 64 colors to create a unique design! NEWARK - The guest list and parade of limousines with celebrities emerging from them seemed more suited to a red carpet event in Hollywood or New York than than a gritty stretch of Sussex Avenue near the former site of the James M. Baxter Terrace public housing project here.";
+//         html +="<meta name='twitter:card' content='summary' />"+
+//         "<meta name='twitter:site' content='@ColorfallGame' />"+
+//         "<meta name='twitter:creator' content='@ColorfallGame' />"+
+//         "<meta name='twitter:url' content='"+meta.url+"' />"+
+//         "<meta name='twitter:title' content='"+title1+"' />"+
+//         "<meta name='twitter:description' content='"+desc1+"' />"+
+//         "<meta name='twitter:image' content='"+meta.image+"' />";
+//       }
+//       html +="</head>"+
+//       "<body>"+
+//       "</body>"+
+//       "</html>";
 
-      res.writeHeader(200, {"Content-Type": "text/html"});
-      res.write(html);
-      res.end();
-    });
-  }
-  else {
-    next();
-  }
-});
+//       res.writeHeader(200, {"Content-Type": "text/html"});
+//       res.write(html);
+//       res.end();
+//     });
+//   }
+//   else {
+//     next();
+//   }
+// });
 
-// api route to create new img
-app.post("/gameresult", function (req, res){
+// // api route to create new img
+// app.post("/gameresult", function (req, res){
 
-  //upload image to s3
-  var AWS = require('aws-sdk');
-  AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
-    secretAcessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: 'us-west-1'
-  });
-  var s3Bucket = new AWS.S3( { params: {Bucket: 'colorfall-images'} } );
+//   //upload image to s3
+//   var AWS = require('aws-sdk');
+//   AWS.config.update({
+//     accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
+//     secretAcessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//     region: 'us-west-1'
+//   });
+//   var s3Bucket = new AWS.S3( { params: {Bucket: 'colorfall-images'} } );
 
-  var imgUrl = 'gameresult-' + (Math.random() + 1).toString(36).substring(7)+".png";
-  var buf = new Buffer(req.body.imgBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
-  var data = {
-    Key: imgUrl,
-    Body: buf,
-    ContentEncoding: 'base64',
-    ContentType: 'image/png'
-  };
-  s3Bucket.putObject(data, function(err, data){
-      if (err) { 
-        console.log(err);
-        console.log('Error uploading data: ', data); 
-      } else {
-        var newGameResult = req.body;
-        newGameResult.imgurl = imgUrl;
-        if(newGameResult.imgBase64) {
-          delete newGameResult.imgBase64;
-        }
-        console.log(newGameResult);
+//   var imgUrl = 'gameresult-' + (Math.random() + 1).toString(36).substring(7)+".png";
+//   var buf = new Buffer(req.body.imgBase64.replace(/^data:image\/\w+;base64,/, ""),'base64');
+//   var data = {
+//     Key: imgUrl,
+//     Body: buf,
+//     ContentEncoding: 'base64',
+//     ContentType: 'image/png'
+//   };
+//   s3Bucket.putObject(data, function(err, data){
+//       if (err) { 
+//         console.log(err);
+//         console.log('Error uploading data: ', data); 
+//       } else {
+//         var newGameResult = req.body;
+//         newGameResult.imgurl = imgUrl;
+//         if(newGameResult.imgBase64) {
+//           delete newGameResult.imgBase64;
+//         }
+//         console.log(newGameResult);
 
-        db.GameResult.create(newGameResult, function(err, gameresult){
-          if (err) { return console.log("create error: " + err); }
-          console.log("created ", gameresult.imgurl, gameresult._id);
-          res.json(gameresult);
-        });
-      }
-  });
+//         db.GameResult.create(newGameResult, function(err, gameresult){
+//           if (err) { return console.log("create error: " + err); }
+//           console.log("created ", gameresult.imgurl, gameresult._id);
+//           res.json(gameresult);
+//         });
+//       }
+//   });
 
-});
+// });
 
 app.get("/gameresultnew", function (req, res){
   console.log('yes');
