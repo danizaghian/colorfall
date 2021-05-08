@@ -19,7 +19,6 @@
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
     "http-server": "^0.8.0",
-    "mongoose": "^4.3.1",
     "phaser": "^2.3.0"
   }
 }
